@@ -1,10 +1,10 @@
 # Project-1-Connect-4
 
-***CONNECT FOUR***
-![WOW](https://cf.geekdo-images.com/o40YUEwzjJ5k-K_l8cDi5w__itemrep/img/IrjAysA5pN0L6bTmJROZWRJbV6Y=/fit-in/246x300/filters:strip_icc()/pic738020.jpg)
+# ***CONAIR 4***<br>
+![WOWWER](Transp.png)
 
 FUN FOR THE ENTIRE FAMILY *(if you have a family of 2)*
-
+![WOW](https://www.wikihow.com/images/thumb/e/e6/Win-at-Connect-4-Step-6-Version-3.jpg/550px-nowatermark-Win-at-Connect-4-Step-6-Version-3.jpg.webp)
 ---
 OBJECTIVE:
 

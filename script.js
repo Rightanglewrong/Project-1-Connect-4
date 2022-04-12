@@ -4,29 +4,20 @@ const playEl = document.querySelector("#play");
 const resetEl = document.querySelector("#reset");
 
 const playerOneEl = document.querySelector("#player1");
-const playerOneScore = document.querySelector("#p1")
+const playerOneScore = document.querySelector("#p1");
 const playerTwoEl = document.querySelector("#player2");
-const playerTwoScore = document.querySelector("#p2")
-
-const boardEl = document.querySelector("#board");
+const playerTwoScore = document.querySelector("#p2");
 const cellsEl = document.querySelectorAll(".box");
-const choicesEl = document.querySelectorAll(".choices");
 
 const players = [1, -1];
-
 let turn = -1;
-let turnCounter = 0;
-
-let boardarray = [
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-];
+let turnCounter;
+// REORGANIZE
 const winningCombos = [
+  // Rows
   [0, 1, 2, 3],
+  [1, 2, 3, 4],
+  [5, 4, 3, 2],
   [41, 40, 39, 38],
   [7, 8, 9, 10],
   [34, 33, 32, 31],
@@ -76,8 +67,7 @@ const winningCombos = [
   [8, 16, 24, 32],
   [11, 17, 23, 29],
   [12, 18, 24, 30],
-  [1, 2, 3, 4],
-  [5, 4, 3, 2],
+  
   [8, 9, 10, 11],
   [12, 11, 10, 9],
   [15, 16, 17, 18],
@@ -98,7 +88,7 @@ const winningCombos = [
 ];
 
 statusEl.textContent =
-  "Sorry boss, but there's only two men I trust. One of them's me. The other's not you";
+"Well, Baby-O, it's not exactly mai-thais and yatzee out here but... let's do it!";
 
 //Event Listeners
 playEl.addEventListener("click", playGame);
@@ -106,52 +96,6 @@ resetEl.addEventListener("click", resetGame);
 
 //Game Init Fn
 function playGame() {
-  boardarray = [
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-  ];
-  for (let i = 0; i < cellsEl.length; i++) {
-    let col = i % 7;
-    let row = Math.floor(i / 7);
-    cellsEl[i].id = row + "," + col;
-    cellsEl[i].innerHTML = "";
-    cellsEl[i].classList.remove("green");
-    cellsEl[i].classList.remove("red");
-    cellsEl[i].classList.remove("taken");
-    cellsEl[i].classList.add("empty");
-  }
-  discPosition();
-  turnTracker();
-}
-
-// Turn Tracker, adds animation for turn indicatior as Indi
-
-function turnTracker() {
-  turn *= -1;
-  turnCounter += 1;
-  if (turn === 1) {
-    statusEl.textContent = `CONNECT 4! Player One's turn!`;
-    playerOneEl.classList.add("indi3");
-  } else if (turn === -1) {
-    statusEl.textContent = `CONNECT 4! Player Two's turn!`;
-    playerTwoEl.classList.add("indi4");
-    //Test functionallity after for Tie checker
-  } else if (turnCounter === 41) {
-    statusEl.textContent = `WELP,NOBODY WINS`;
-  }
-  setTimeout(removeIndi, 1600);
-  function removeIndi() {
-    playerOneEl.classList.remove("indi3");
-    playerTwoEl.classList.remove("indi4");
-  }
-}
-
-// Choice made
-function discPosition(e) {
   function turnState(i) {
     if (turn === 1) {
       cellsEl[i].classList.remove("empty");
@@ -169,9 +113,15 @@ function discPosition(e) {
   }
   for (let i = 0; i < cellsEl.length; i++) {
     cellsEl[i].addEventListener("click", function () {
-      if (cellsEl[i].classList.contains("end") && !cellsEl[i].classList.contains("taken")) {
+      console.log(i)
+      if (
+        cellsEl[i].classList.contains("end") &&
+        !cellsEl[i].classList.contains("taken")
+      ) {
         turnState(i);
-        } else if (cellsEl[i + 7].classList.contains("taken") && !cellsEl[i].classList.contains("taken")
+      } else if (
+        cellsEl[i + 7].classList.contains("taken") &&
+        !cellsEl[i].classList.contains("taken")
       ) {
         turnState(i);
       } else {
@@ -180,6 +130,29 @@ function discPosition(e) {
       }
       checkBoard();
     });
+  }
+  turnCounter = -1
+  turnTracker();
+}
+
+// Turn Tracker, adds animation for turn indicatior as Indi
+function turnTracker() {
+  turn *= -1;
+  turnCounter += 1;
+  if (turn === 1) {
+    statusEl.textContent = `CONNECT 4! Player One's turn!`;
+    playerOneEl.classList.add("indi3");
+  } else if (turn === -1) {
+    statusEl.textContent = `CONNECT 4! Player Two's turn!`;
+    playerTwoEl.classList.add("indi4");
+    //Test functionallity after for Tie checker
+  } else if (turnCounter === 41 && checkBoard === false) {
+    statusEl.textContent = `WELP,NOBODY WINS`;
+  }
+  setTimeout(removeIndi, 1600);
+  function removeIndi() {
+    playerOneEl.classList.remove("indi3");
+    playerTwoEl.classList.remove("indi4");
   }
 }
 
@@ -199,9 +172,7 @@ function checkBoard() {
       statusEl.textContent = "Player One Wins! Resetting board!";
       playerOneScore.textContent += "*";
       turn = 1;
-      setTimeout(playGame, 2000);
-      
-
+      setTimeout(resetBoard, 3000);
     } else if (
       square1.classList.contains("green") &&
       square2.classList.contains("green") &&
@@ -211,16 +182,25 @@ function checkBoard() {
       statusEl.textContent = "Player Two Wins! Resetting board!";
       playerTwoScore.textContent += "*";
       turn = -1;
-      setTimeout(playGame, 2000);
+      setTimeout(resetBoard, 3000);
     }
   }
 }
-// Game reset
 
+// Game reset
 function resetGame() {
   statusEl.textContent = "Put the bunny back in the box.";
+  resetBoard()
   playerOneScore.textContent = "";
   playerTwoScore.textContent = "";
   turn = -1;
-  setTimeout(playGame, 1500);
+}
+function resetBoard() {
+  for (let i = 0; i < cellsEl.length; i++) {
+    cellsEl[i].innerHTML = "";
+    cellsEl[i].classList.remove("green");
+    cellsEl[i].classList.remove("red");
+    cellsEl[i].classList.remove("taken");
+    cellsEl[i].classList.add("empty");
+  }
 }

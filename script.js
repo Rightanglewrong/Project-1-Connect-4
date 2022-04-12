@@ -4,7 +4,9 @@ const playEl = document.querySelector("#play");
 const resetEl = document.querySelector("#reset");
 
 const playerOneEl = document.querySelector("#player1");
+const playerOneScore = document.querySelector("#p1")
 const playerTwoEl = document.querySelector("#player2");
+const playerTwoScore = document.querySelector("#p2")
 
 const boardEl = document.querySelector("#board");
 const cellsEl = document.querySelectorAll(".box");
@@ -15,15 +17,14 @@ const players = [1, -1];
 let turn = -1;
 let turnCounter = 0;
 
-// for (x = 0;x < boardArray.length;x++){
-//   for (y=0;y<boardArray[x].length;y++){
-//     const cell = document.createElement("div")
-//     cell.id = x +""+ y
-//     board.appendChild(cell)
-//     cell.className = "box empty"
-//   }
-// }
-
+let boardarray = [
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+];
 const winningCombos = [
   [0, 1, 2, 3],
   [41, 40, 39, 38],
@@ -105,6 +106,14 @@ resetEl.addEventListener("click", resetGame);
 
 //Game Init Fn
 function playGame() {
+  boardarray = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+  ];
   for (let i = 0; i < cellsEl.length; i++) {
     let col = i % 7;
     let row = Math.floor(i / 7);
@@ -131,7 +140,7 @@ function turnTracker() {
     statusEl.textContent = `CONNECT 4! Player Two's turn!`;
     playerTwoEl.classList.add("indi4");
     //Test functionallity after for Tie checker
-  } else if (turnCounter === 42) {
+  } else if (turnCounter === 41) {
     statusEl.textContent = `WELP,NOBODY WINS`;
   }
   setTimeout(removeIndi, 1600);
@@ -143,7 +152,7 @@ function turnTracker() {
 
 // Choice made
 function discPosition(e) {
-  function turnState (i) {
+  function turnState(i) {
     if (turn === 1) {
       cellsEl[i].classList.remove("empty");
       cellsEl[i].classList.add("taken");
@@ -160,21 +169,17 @@ function discPosition(e) {
   }
   for (let i = 0; i < cellsEl.length; i++) {
     cellsEl[i].addEventListener("click", function () {
-      if (
-        cellsEl[i].classList.contains("end") &&
-        !cellsEl[i].classList.contains("taken")
+      if (cellsEl[i].classList.contains("end") && !cellsEl[i].classList.contains("taken")) {
+        turnState(i);
+        } else if (cellsEl[i + 7].classList.contains("taken") && !cellsEl[i].classList.contains("taken")
       ) {
-        turnState(i)
-      } else if (
-        cellsEl[i + 7].classList.contains("taken") &&
-        !cellsEl[i].classList.contains("taken")
-      ) {
-        turnState(i)
+        turnState(i);
       } else {
-        statusEl.textContent="Can't go here"
+        statusEl.textContent = "Can't go here";
+        return;
       }
+      checkBoard();
     });
-    checkBoard()
   }
 }
 
@@ -185,24 +190,28 @@ function checkBoard() {
     const square2 = cellsEl[winningCombos[y][1]];
     const square3 = cellsEl[winningCombos[y][2]];
     const square4 = cellsEl[winningCombos[y][3]];
-
-    //check those squares to see if they all have the class of player-one
     if (
       square1.classList.contains("red") &&
       square2.classList.contains("red") &&
       square3.classList.contains("red") &&
       square4.classList.contains("red")
     ) {
-      statusEl.textContent = "Player One Wins!";
-    }
-    //check those squares to see if they all have the class of player-two
-    if (
+      statusEl.textContent = "Player One Wins! Resetting board!";
+      playerOneScore.textContent += "*";
+      turn = 1;
+      setTimeout(playGame, 2000);
+      
+
+    } else if (
       square1.classList.contains("green") &&
       square2.classList.contains("green") &&
       square3.classList.contains("green") &&
       square4.classList.contains("green")
     ) {
-      statusEl.textContent = "Player Two Wins!";
+      statusEl.textContent = "Player Two Wins! Resetting board!";
+      playerTwoScore.textContent += "*";
+      turn = -1;
+      setTimeout(playGame, 2000);
     }
   }
 }
@@ -210,5 +219,8 @@ function checkBoard() {
 
 function resetGame() {
   statusEl.textContent = "Put the bunny back in the box.";
+  playerOneScore.textContent = "";
+  playerTwoScore.textContent = "";
+  turn = -1;
   setTimeout(playGame, 1500);
 }

@@ -75,8 +75,8 @@ h1 span {
 #player1 {
   border: 10px solid rgb(255, 0, 0);
   outline: 5px solid rgb(164, 0, 0);
-  background-color: rgb(238, 133, 133);
-  color: red;
+  background-color: rgb(231, 143, 143);
+  color: rgb(169, 0, 0);
 }
 #player2 {
   border: 10px solid rgb(2, 169, 2);

@@ -143,48 +143,40 @@ function turnTracker() {
 
 // Choice made
 function discPosition(e) {
+  function turnState (i){
+    if (turn === 1) {
+      cellsEl[i].classList.remove("empty");
+      cellsEl[i].classList.add("taken");
+      cellsEl[i].classList.add("red");
+      cellsEl[i].innerHTML = 1;
+      turnTracker();
+    } else if (turn === -1) {
+      cellsEl[i].classList.remove("empty");
+      cellsEl[i].classList.add("taken");
+      cellsEl[i].classList.add("green");
+      cellsEl[i].innerHTML = -1;
+      turnTracker();
+    }
+  }
   for (let i = 0; i < cellsEl.length; i++) {
     cellsEl[i].addEventListener("click", function () {
       if (
         cellsEl[i].classList.contains("end") &&
         !cellsEl[i].classList.contains("taken")
       ) {
-        if (turn === 1) {
-          cellsEl[i].classList.remove("empty");
-          cellsEl[i].classList.add("taken");
-          cellsEl[i].classList.add("red");
-          cellsEl[i].innerHTML = 1;
-          turnTracker();
-        } else if (turn === -1) {
-          cellsEl[i].classList.remove("empty");
-          cellsEl[i].classList.add("taken");
-          cellsEl[i].classList.add("green");
-          cellsEl[i].innerHTML = -1;
-          turnTracker();
-        }
+        turnState(i)
       } else if (
         cellsEl[i + 7].classList.contains("taken") &&
         !cellsEl[i].classList.contains("taken")
       ) {
-        if (turn === 1) {
-          cellsEl[i].classList.remove("empty");
-          cellsEl[i].classList.add("taken");
-          cellsEl[i].classList.add("red");
-          cellsEl[i].innerHTML = 1;
-          turnTracker();
-        } else if (turn === -1) {
-          cellsEl[i].classList.remove("empty");
-          cellsEl[i].classList.add("taken");
-          cellsEl[i].classList.add("green");
-          cellsEl[i].innerHTML = -1;
-          turnTracker();
-        }
+        turnState(i)
       } else {
         statusEl.textContent="Can't go here"
       }
     });
-    checkBoard()
+    
   }
+checkBoard()
 }
 
 //Check for win combos

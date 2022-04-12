@@ -15,15 +15,6 @@ const players = [1, -1];
 let turn = -1;
 let turnCounter = 0;
 
-// for (x = 0;x < boardArray.length;x++){
-//   for (y=0;y<boardArray[x].length;y++){
-//     const cell = document.createElement("div")
-//     cell.id = x +""+ y
-//     board.appendChild(cell)
-//     cell.className = "box empty"
-//   }
-// }
-
 const winningCombos = [
   [0, 1, 2, 3],
   [41, 40, 39, 38],

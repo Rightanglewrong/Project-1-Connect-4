@@ -133,7 +133,6 @@ function playGame() {
         !cellsEl[i].classList.contains("taken")
       ) {
         turnState(i);
-
       } else {
         statusEl.textContent = "Nope, try again...";
         return;
@@ -143,6 +142,7 @@ function playGame() {
   checkBoard();
   turnCounter = -1;
   turnTracker();
+  playEl.removeEventListener("click", playGame)
 }
 
 // Turn Tracker, adds animation for turn indicatior as Indi
@@ -156,8 +156,6 @@ function turnTracker() {
     statusEl.textContent = `CONNECT 4! Player Two's turn!`;
     playerTwoEl.classList.add("indi4");
     //Test functionallity after for Tie checker
-  } else if (turnCounter === 41 && checkBoard === false) {
-    statusEl.textContent = `WELP,NOBODY WINS`;
   }
   setTimeout(removeIndi, 1600);
   function removeIndi() {
@@ -198,6 +196,10 @@ function checkBoard() {
       setTimeout(resetBoard, 1400);
       }
   }
+  if (turnCounter === 42) {
+    statusEl.textContent = `WELP,NOBODY WINS`;
+    setTimeout(resetBoard, 1400);
+  }
 }
   
 
@@ -206,13 +208,13 @@ function checkBoard() {
 function resetGame() {
   let quoteNumber = Math.floor(Math.random() * (quoteList.length))
   statusEl.textContent = quoteList[quoteNumber];
-  // "Put the bunny back in the box.";
   resetBoard()
   playerOneScore.textContent = "";
   playerTwoScore.textContent = "";
   playerOneScoreNum = 0
   playerTwoScoreNum = 0
   turn = -1;
+  turnCounter = -1;
 }
 //soft reset
 function resetBoard() {
@@ -223,4 +225,5 @@ function resetBoard() {
     cellsEl[i].classList.remove("taken");
     cellsEl[i].classList.add("empty");
   }
+  turnCounter = -1;
 }

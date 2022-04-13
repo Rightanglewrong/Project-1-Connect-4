@@ -12,14 +12,26 @@ const cellsEl = document.querySelectorAll(".box");
 const players = [1, -1];
 let turn = -1;
 let turnCounter;
+
+
 // REORGANIZE
 const winningCombos = [
-  // Rows
   [0, 1, 2, 3],
   [1, 2, 3, 4],
   [5, 4, 3, 2],
-  [41, 40, 39, 38],
+  [6, 5, 4, 3],
   [7, 8, 9, 10],
+  [8, 9, 10, 11],
+  [12, 11, 10, 9],
+  [15, 16, 17, 18],
+  [19, 18, 17, 16],
+  [22, 23, 24, 25],
+  [26, 25, 24, 23],
+  [29, 30, 31, 32],
+  [33, 32, 31, 30],
+  [36, 37, 38, 39],
+  [40, 39, 38, 37],
+  [41, 40, 39, 38],
   [34, 33, 32, 31],
   [14, 15, 16, 17],
   [27, 26, 25, 24],
@@ -28,7 +40,6 @@ const winningCombos = [
   [28, 29, 30, 31],
   [13, 12, 11, 10],
   [35, 36, 37, 38],
-  [6, 5, 4, 3],
   [0, 7, 14, 21],
   [41, 34, 27, 20],
   [1, 8, 15, 22],
@@ -67,17 +78,6 @@ const winningCombos = [
   [8, 16, 24, 32],
   [11, 17, 23, 29],
   [12, 18, 24, 30],
-  
-  [8, 9, 10, 11],
-  [12, 11, 10, 9],
-  [15, 16, 17, 18],
-  [19, 18, 17, 16],
-  [22, 23, 24, 25],
-  [26, 25, 24, 23],
-  [29, 30, 31, 32],
-  [33, 32, 31, 30],
-  [36, 37, 38, 39],
-  [40, 39, 38, 37],
   [7, 14, 21, 28],
   [8, 15, 22, 29],
   [9, 16, 23, 30],
@@ -88,7 +88,7 @@ const winningCombos = [
 ];
 
 statusEl.textContent =
-"Well, Baby-O, it's not exactly mai-thais and yatzee out here but... let's do it!";
+  "Well, Baby-O, it's not exactly mai-thais and yatzee out here but... let's do it!";
 
 //Event Listeners
 playEl.addEventListener("click", playGame);
@@ -112,8 +112,9 @@ function playGame() {
     }
   }
   for (let i = 0; i < cellsEl.length; i++) {
+    // Turn function into named function, disable event handler after wins
     cellsEl[i].addEventListener("click", function () {
-      console.log(i)
+      console.log(i);
       if (
         cellsEl[i].classList.contains("end") &&
         !cellsEl[i].classList.contains("taken")
@@ -124,14 +125,15 @@ function playGame() {
         !cellsEl[i].classList.contains("taken")
       ) {
         turnState(i);
+
       } else {
         statusEl.textContent = "Can't go here";
         return;
       }
-      checkBoard();
     });
   }
-  turnCounter = -1
+  checkBoard();
+  turnCounter = -1;
   turnTracker();
 }
 
@@ -154,7 +156,7 @@ function turnTracker() {
     playerOneEl.classList.remove("indi3");
     playerTwoEl.classList.remove("indi4");
   }
-checkBoard()
+  checkBoard();
 }
 
 //Check for win combos
@@ -174,6 +176,7 @@ function checkBoard() {
       playerOneScore.textContent += "*";
       turn = 1;
       setTimeout(resetBoard, 3000);
+      // Add Nicky cage animation
     } else if (
       square1.classList.contains("green") &&
       square2.classList.contains("green") &&
@@ -191,7 +194,7 @@ function checkBoard() {
 // Game reset
 function resetGame() {
   statusEl.textContent = "Put the bunny back in the box.";
-  resetBoard()
+  resetBoard();
   playerOneScore.textContent = "";
   playerTwoScore.textContent = "";
   turn = -1;

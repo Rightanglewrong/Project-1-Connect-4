@@ -66,7 +66,7 @@ h1 span {
 }
 #player1,
 #player2 {
-  padding: 40px 10px 30px 10px;
+  padding: 50px 20px 20px 20px;
   margin: 10px 100px 10px 10px;
   border-radius: 50%;
   width: min-content;
@@ -86,12 +86,12 @@ h1 span {
 }
 .indi3 {
   animation-name: indi3;
-  animation-duration: 1500ms;
+  animation-duration: 1200ms;
   animation-iteration-count: 5;
 }
 .indi4 {
   animation-name: indi4;
-  animation-duration: 1500ms;
+  animation-duration: 1200ms;
   animation-iteration-count: 5;
 }
 @keyframes indi3 {
@@ -159,4 +159,8 @@ h1 span {
 .green {
   background-image: url(./Images/con_air-Trans.png);
   background-size: contain;
+}
+#p1,
+#p2 {
+  font-size: 27px;
 }

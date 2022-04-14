@@ -17,14 +17,16 @@ let turn = -1;
 let turnCounter;
 let quoteList = [
   "Put the bunny back in the box.",
-  "Sorry boss, but there's only two men I trust. One of them's me. The other's not you.", 
-  "Hey! My mama lives in a trailer!", 
+  "Sorry boss, but there's only two men I trust. One of them's me. The other's not you.",
+  "Hey! My mama lives in a trailer!",
   "Somehow they managed to get every creep and freak in the universe on this one plane.",
   "Define irony. Bunch of idiots dancing on a plane to a song made famous by a band that died in a plane crash.",
-  "Make a move and the bunny gets it."
-]
+  "Make a move and the bunny gets it.",
+];
+let cage = new Audio("Audio/con-cage.wav");
+let cage2 = new Audio("Audio/con-bunny.wav");
 
-// Winning combinations 
+// Winning combinations
 const winningCombos = [
   [0, 1, 2, 3],
   [1, 2, 3, 4],
@@ -139,10 +141,11 @@ function playGame() {
       }
     });
   }
+  cage.play()
   checkBoard();
   turnCounter = -1;
   turnTracker();
-  playEl.removeEventListener("click", playGame)
+  playEl.removeEventListener("click", playGame);
 }
 
 // Turn Tracker, adds animation for turn indicatior as Indi
@@ -180,7 +183,7 @@ function checkBoard() {
     ) {
       playerOneScoreNum += 1;
       statusEl.textContent = "Player One Wins! Resetting board!";
-      playerOneScore.textContent = "Wins: " +  playerOneScoreNum;
+      playerOneScore.textContent = "Wins: " + playerOneScoreNum;
       turn = 1;
       setTimeout(resetBoard, 1400);
     } else if (
@@ -191,32 +194,31 @@ function checkBoard() {
     ) {
       playerTwoScoreNum += 1;
       statusEl.textContent = "Player Two Wins! Resetting board!";
-      playerTwoScore.textContent = "Wins: " + playerTwoScoreNum ;
+      playerTwoScore.textContent = "Wins: " + playerTwoScoreNum;
       turn = -1;
       setTimeout(resetBoard, 1400);
-      }
+    }
   }
   if (turnCounter === 42) {
     statusEl.textContent = `WELP,NOBODY WINS`;
     setTimeout(resetBoard, 1400);
   }
 }
-  
-
 
 // Game reset
 function resetGame() {
-  let quoteNumber = Math.floor(Math.random() * (quoteList.length))
+  let quoteNumber = Math.floor(Math.random() * quoteList.length);
   statusEl.textContent = quoteList[quoteNumber];
-  resetBoard()
+  resetBoard();
   playerOneScore.textContent = "";
   playerTwoScore.textContent = "";
-  playerOneScoreNum = 0
-  playerTwoScoreNum = 0
+  playerOneScoreNum = 0;
+  playerTwoScoreNum = 0;
   turn = -1;
   turnCounter = -1;
+  cage2.play();
 }
-//soft reset
+//Soft reset
 function resetBoard() {
   for (let i = 0; i < cellsEl.length; i++) {
     cellsEl[i].innerHTML = "";

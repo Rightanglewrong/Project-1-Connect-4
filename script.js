@@ -215,7 +215,7 @@ function resetGame() {
   playerOneScoreNum = 0;
   playerTwoScoreNum = 0;
   turn = -1;
-  turnCounter = -1;
+  turnCounter = 0;
   cage2.play();
 }
 //Soft reset
@@ -227,5 +227,5 @@ function resetBoard() {
     cellsEl[i].classList.remove("taken");
     cellsEl[i].classList.add("empty");
   }
-  turnCounter = -1;
+  turnCounter = 0;
 }
